@@ -75,6 +75,36 @@ if(1) {
 // ========================== 시작 ==============================
 // =============================== AIter AsyncItem 도입 ==============================
 if(1) {
+    const DataPass = class {
+        get data() {
+            throw "override";
+        }
+
+        set data(v) {
+            throw "override";
+        }
+    };
+    const PrevPass = class extends DataPass {
+        #data;
+        get data() {
+            return this.#data;
+        }
+
+        set data(v) {
+            this.#data = v;
+        }
+    };
+    const IncPass = class extends DataPass {
+        #data = [];
+        get data() {
+            return this.#data;
+        }
+
+        set data(v) {
+            this.#data.push(v);
+        }
+    }
+
     const AIter = class{
         update(v){}
         async *load(){throw "override";}
