@@ -69,6 +69,12 @@ const render = async function(...aIters){
     }
 }
 
+render(
+    START,
+    urls('1.json', '2.json'),
+    url('3.json'),
+    END
+)
 
 
 
