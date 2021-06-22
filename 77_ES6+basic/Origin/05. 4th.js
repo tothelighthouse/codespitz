@@ -58,8 +58,8 @@ if(1){
     }
 }
 
-// 팩토리 + 컴포지트
 if(1) {
+    // 팩토리 + 컴포지트
     const Operator = class {
         static factory(v) {
             if (v instanceof Object) {
