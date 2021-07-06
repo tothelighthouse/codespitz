@@ -57,21 +57,18 @@ parent.appendChild(table1) // 1. 가장 마지막 연산이 제일 먼저 위치
 // 6. 루프문 바깥의 acc를 reduce 함수의 Acc 인자로 설정
 // 7. 각 [i] 인자롤 사용할 item 을 next 인자로 설정
 
+
+//1234
+
+
 parent.appendChild(
-// for(let i = 0;i < fields.items.length;i++){ // 2. 시작 루프
-    fields.items.reduce((table1, row)=>{
-        row.reduce(()=>{
-
-        })
-
-        }, table1)
+    fields.items.reduce((table, row)=>{
+        table.appendChild(row.reduce((tr, data)=>{const td = document.createElement('td')
+                td.innerHTML = data;tr.appendChild(td);return tr}, document.createElement('tr'))
+        )
+        return table
+    }, table)
 )
-
-
-
-
-
-
 
 
 
