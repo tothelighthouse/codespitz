@@ -30,67 +30,103 @@ const el = (tag, ...attr) => {
 
 </script>
 <script>//jsonp loader
-    const JsonpListener = class{
-        jsonpLoaded(v){throw 'override';}
-    };
-    const jsonp =(url, listener)=>{
-        if(!(listener instanceof JsonpListener)) throw 'invalid listener';
-        const s = document.createElement('script');
-        const id = jsonp._id++;
-        const f = jsonp['callback' + id] =v=>{
-        delete jsonp['callback' +id];
-        document.head.removeChild(s);
-        listener.jsonpLoaded(v);
-    };
-        s.src = `${url}?callback=jsonp.callback${id}`;
-        document.head.appendChild(s);
-    };
-    jsonp._id = 0;
+
+
+//12345678910
+
+const JsonpListener = class {
+    jsonpLoaded(v){throw 'override'}
+}
+
+const jsonp = (url, listener) => {
+    if(!(listener instanceof JsonpListener)) throw 'kdjkjkj'
+    const s = document.createElement('script')
+    const id = jsonp._id
+    const f = jsonp['callback' + id] = v=>{
+        delete jsonp['callback' + id]
+        document.head.removeChild(s)
+        listener.jsonpLoaded(v)
+    }
+    s.src = `${url}?callback=jsonp.callback${id}`
+    document.head.appendChild(s)
+}
+
+
+
+
 </script>
 <script>
     const GithubLoader = class extends JsonpListener{
-    constructor(parser, arg){
-    super();
-    if(!(parser instanceof Parser)) throw 'invalid parser';
-    this._parser = parser;
-    this._arg = arg;
-}
-    jsonpLoaded({data:{content}}){
-    this._parser.parse(content, ...this._arg);
-}
-};
-    const Github = class{
-    constructor(id, repo){
-    this._base = `https://api.github.com/repos/${id}/${repo}/contents/`;
-}
-    set parser(v){
-    if(!(v instanceof Parser)) throw 'invalid parser';
-    this._parser = v;
-}
-    load(path, ...arg){
-    jsonp(this._base + path, new GithubLoader(this._parser, arg));
-}
-};
-    const Parser = class{
-    parse(content, ...arg){
-    throw 'override';
-}
-};
+        constructor(parser, arg) {
+            super();
+            if(!(parser instanceof Parser)) throw 'invadfdf'
+            this._parser = parser
+            this._arg = arg;
+        }
+        jsonpLoaded({data:{content}}) {
+            this._parser.parser(content, ...this._arg)
+        }
+    }
+
+    const Github = class {
+        constructor(id, repo) {
+            this._base = `http://${id}/${repo}/`;
+        }
+        set parser(v){
+            if(!(v instanceof Parser)) throw 'dfdf'
+            this._parser = v
+        }
+        load(path, ...arg){
+            jsonp(this._base + path, new GithubLoader(this._parser, arg))
+        }
+
+    }
+
+    const Parser = class {
+        parse(content, ...arg){throw 'dfdf'}
+    }
+
     const ImageParser = class extends Parser{
-    parse(content, el, ...arg){
-    sel(el).src = 'data:text/plain;base64,' + content;
-}
-};
-    const MdParser = class extends Parser{
-    parse(content, el, ...arg){
-    sel(el).innerHTML = marked(d64(content));
-}
-};
-    const github = new Github('hikaMaeng', 'codespitz75');
-    github.parser = new ImageParser();
-    github.load('einBig.png', '#a');
-    github.parser = new MdParser();
-    github.load('README.md', '#b');
+        parse(content, el, ...arg) {
+            sel(el).src = 'data:text/plain;base64' + content
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

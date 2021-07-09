@@ -32,10 +32,10 @@
         const s = document.createElement('script');
         const id = jsonp._id++;
         const f = jsonp['callback' + id] =v=>{
-        delete jsonp['callback' +id];
-        document.head.removeChild(s);
-        listener.jsonpLoaded(v);
-    };
+            delete jsonp['callback' +id];
+            document.head.removeChild(s);
+            listener.jsonpLoaded(v);
+        };
         s.src = `${url}?callback=jsonp.callback${id}`;
         document.head.appendChild(s);
     };
@@ -43,43 +43,43 @@
 </script>
 <script>
     const GithubLoader = class extends JsonpListener{
-    constructor(parser, arg){
-    super();
-    if(!(parser instanceof Parser)) throw 'invalid parser';
-    this._parser = parser;
-    this._arg = arg;
-}
-    jsonpLoaded({data:{content}}){
-    this._parser.parse(content, ...this._arg);
-}
-};
+        constructor(parser, arg){
+            super();
+            if(!(parser instanceof Parser)) throw 'invalid parser';
+            this._parser = parser;
+            this._arg = arg;
+        }
+        jsonpLoaded({data:{content}}){
+            this._parser.parse(content, ...this._arg);
+        }
+    };
     const Github = class{
-    constructor(id, repo){
-    this._base = `https://api.github.com/repos/${id}/${repo}/contents/`;
-}
-    set parser(v){
-    if(!(v instanceof Parser)) throw 'invalid parser';
-    this._parser = v;
-}
-    load(path, ...arg){
-    jsonp(this._base + path, new GithubLoader(this._parser, arg));
-}
-};
+        constructor(id, repo){
+            this._base = `https://api.github.com/repos/${id}/${repo}/contents/`;
+        }
+        set parser(v){
+            if(!(v instanceof Parser)) throw 'invalid parser';
+            this._parser = v;
+        }
+        load(path, ...arg){
+            jsonp(this._base + path, new GithubLoader(this._parser, arg));
+        }
+    };
     const Parser = class{
-    parse(content, ...arg){
-    throw 'override';
-}
-};
+        parse(content, ...arg){
+            throw 'override';
+        }
+    };
     const ImageParser = class extends Parser{
-    parse(content, el, ...arg){
-    sel(el).src = 'data:text/plain;base64,' + content;
-}
-};
+        parse(content, el, ...arg){
+            sel(el).src = 'data:text/plain;base64,' + content;
+        }
+    };
     const MdParser = class extends Parser{
-    parse(content, el, ...arg){
-    sel(el).innerHTML = marked(d64(content));
-}
-};
+        parse(content, el, ...arg){
+            sel(el).innerHTML = marked(d64(content));
+        }
+    };
     const github = new Github('hikaMaeng', 'codespitz75');
     github.parser = new ImageParser();
     github.load('einBig.png', '#a');
