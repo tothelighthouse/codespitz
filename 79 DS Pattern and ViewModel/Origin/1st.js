@@ -33,3 +33,63 @@ const Task = class {
         }
     }
 }
+
+
+const TableRenderer = class extends Renderer {
+    constructor(parent) {
+        if(typeof parent != 'string' || !parent) throw 'invalid param';
+        super();
+        this._parent = parent
+    }
+
+    _render(){
+        const parent = document.querySelector(this._parent())
+        if(!parent) throw 'invalid parent';
+        parent.innerHTML = '';
+        const [title, header, items] = this._info
+        const [table, caption, thead] = 'table,caption,thead'.split(",").map(
+            v=>document.createElement(v)
+        )
+
+        caption.innerHTML = title;
+        table.appendChild(...[
+            caption,
+            header.reduce((_,v)=>(
+                thead.appendChild(document.createElement('th')).innerHTML = v, thead
+            )),
+            ...items.map(item=>item.reduce(
+                (tr, v)=>(tr.appendChild(document.createElement('td')).innerHTML = v,tr),
+                document.createElement('tr')
+            ))
+        ])
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
