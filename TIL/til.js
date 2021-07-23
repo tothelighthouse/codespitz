@@ -1,43 +1,43 @@
-// 두문장은 같은 의미
-let a, b;
-const x2 = a ?? b
-const x1 = (a !== null && a !== undefined) ? a : b;
-// || 와 ?? 의 차이
-const dd3 = a || b
-const dd4 = (a !== null && a !== undefined && a !== 0) ? a : b
-
-
-// *******************************************************
+// // 두문장은 같은 의미
+// let a, b;
+// const x2 = a ?? b
+// const x1 = (a !== null && a !== undefined) ? a : b;
+// // || 와 ?? 의 차이
+// const dd3 = a || b
+// const dd4 = (a !== null && a !== undefined && a !== 0) ? a : b
+//
+//
+// // *******************************************************
+// // export function getAmount(val) {
+// //   const s = val === undefined ? '' : val
+// //   const str = getInteger(s.toString())
+// //   let num = 0
+// //   let result = ''
+// //   for (let i = str.length - 1; i >= 0; i--) {
+// //     result = str[i] + result
+// //     if (num % 3 === 2 && i !== 0) {
+// //       result = ',' + result
+// //     }
+// //     num++
+// //   }
+// //   return result
+// // }
+//
 // export function getAmount(val) {
-//   const s = val === undefined ? '' : val
-//   const str = getInteger(s.toString())
-//   let num = 0
-//   let result = ''
-//   for (let i = str.length - 1; i >= 0; i--) {
-//     result = str[i] + result
-//     if (num % 3 === 2 && i !== 0) {
-//       result = ',' + result
+//     const str = (val ?? '').toString()
+//     let num = 1
+//     let result = ''
+//     for (let i = str.length - 1; i >= 0; ) {
+//         result = !(num++ % 3) && i !== 0 ? ',' : '' + str[i] + result
+//         i--
 //     }
-//     num++
-//   }
-//   return result
+//     return result
 // }
-
-export function getAmount(val) {
-    const str = (val ?? '').toString()
-    let num = 1
-    let result = ''
-    for (let i = str.length - 1; i >= 0; ) {
-        result = !(num++ % 3) && i !== 0 ? ',' : '' + str[i] + result
-        i--
-    }
-    return result
-}
-// *******************************************************
-
-
-
-
+// // *******************************************************
+//
+//
+//
+//
 
 
 const textNode = (text, target)=>{
@@ -82,6 +82,21 @@ const parser = input=>{
     }while(stack = stacks.pop());
     return result.tag.children;
 };
+
+const parser = input=>{
+    const result = {tag:{type:'ROOT', children:[]}}, stacks = [];
+    let cursor = 0, stack = result;
+    do {
+        let text = '';
+        while (cursor < input.length) {
+            const v = elementNode(input, cursor, text, stack, stacks);
+            ({cursor, text, stack} = v);
+            if (v.isBreak) break;
+        }
+    }while(stack = stacks.pop());
+    return result.tag.children;
+};
+
 console.log('<div>test</div>',parser('<div>test</div>'));
 console.log('<div>test<img/></div>',parser('<div>test<img/></div>'));
 console.log('<div>test<a>aa</a>bb</div>',parser('<div>test<a>aa</a>bb</div>'));

@@ -41,13 +41,13 @@
 
 const textNode = (input, cursor, curr) => {
     const idx = input.indexOf('<', cursor)
-    curr.tag.children.push({type: 'text',text: input.substring(cursor + 1, idx)})
+    curr.tag.children.push({type: 'text',text: input.substring(cursor, idx)})
     return idx
 }
 
 const elementNode = (input, cursor, idx, curr, stack) => {
     const isClose = input[idx - 1] === '/'
-    const tag = {name:input.substring(cursor, idx - (isClose ? 1 : 0)), type:'node'}
+    const tag = {name:input.substring(cursor + 1, idx - (isClose ? 1 : 0)), type:'node', children:[]}
     curr.tag.children.push(tag)
     if(!close){
         stack.push({tag, back:curr})
