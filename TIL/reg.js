@@ -50,3 +50,19 @@ const muldiv = /((?:\+-)?[.\d]+)([*\/])((?:\+-)?[.\d]+)/
 const paren = /\(([^()]*)\)/
 const rex = /<([a-zA-Z]+)((\s+[a-zA-Z](\s+\s*=\s*"[^"]")?)*)\s*\/?/
 
+const regex = /<a href="(?<url>[\S]+)">(?<text>[\S]+)<\/a>/g;
+const matchResult = regex.exec(`
+  <a href="https://velog.io">Velog</a>
+`);
+
+console.log(matchResult?.groups?.url); // https://velog.io
+
+const htmlString = `
+  <a href="https://velog.io">Velog</a>\n
+  <a href="https://www.naver.com">Naver</a>
+`;
+const regex = /<a href="(?<url>[\S]+)">(?<text>[\S]+)<\/a>/g;
+
+const replacedString = htmlString.replace(regex, "[$<text>]($<url>)");
+
+console.log(replacedString);
